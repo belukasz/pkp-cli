@@ -11,6 +11,34 @@ import (
 	"time"
 )
 
+var trainTypes = map[string]string{
+	"IC":    "IC--EIP-IC",
+	"EIP":   "EIP--EIP-IC",
+	"EIPIC": "EIP-IC--EIP-IC",
+	"ALL":   "all",
+}
+
+type Connections []Connection
+
+type DayScrape struct {
+	Connections
+	Date string
+}
+
+func (ds *DayScrape) RealDate() time.Time {
+	t, err := time.Parse("2-01-2006_15:04", ds.Date)
+	if err != nil {
+		panic(err)
+	}
+	return t
+}
+
+type ScrapeData struct {
+	From string
+	To   string
+	Date string
+}
+
 type Connection struct {
 	DepartureTime string
 	ArrivalTime   string
@@ -19,8 +47,9 @@ type Connection struct {
 	Duration      string
 }
 
-func ScrapeOneDay(start string, end string, date string) ([]Connection, error) {
-	url := fmt.Sprintf("https://koleo.pl/rozklad-pkp/%s/%s/%s/all/EIP--EIP-IC", start, end, date)
+func ScrapeOneDay(start string, end string, date string, trainType string) ([]Connection, error) {
+	suffix := trainTypes[trainType]
+	url := fmt.Sprintf("https://koleo.pl/rozklad-pkp/%s/%s/%s/all/%s", start, end, date, suffix)
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 
