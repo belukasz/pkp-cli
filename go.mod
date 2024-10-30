@@ -1,4 +1,4 @@
-module github.com/belukasz/pkp
+module github.com/belukasz/pkp-cli
 
 go 1.23
 

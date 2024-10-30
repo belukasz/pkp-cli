@@ -4,7 +4,7 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package main
 
 import (
-	"github.com/belukasz/pkp/app"
+	"github.com/belukasz/pkp-cli/app"
 	"fmt"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"os"
