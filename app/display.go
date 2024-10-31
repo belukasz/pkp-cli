@@ -16,7 +16,7 @@ func PrintTable(scrapped []DayScrape, workdays bool, limit int) {
 			date := ds.RealDate().Format("Mon Jan02")
 			day := strings.Split(date, " ")[0]
 			shouldDisplay := (!workdays || !(workdays && (day == "Sun" || day == "Sat")))
-			if i+1 < limit && shouldDisplay {
+			if i < limit && shouldDisplay {
 				t.AppendRow(table.Row{date, conn.DepartureTime, conn.ArrivalTime, conn.Price, conn.Name, conn.Duration})
 			}
 		}
