@@ -50,7 +50,7 @@ type Connection struct {
 
 func ScrapeOneDay(start string, end string, date string, trainType string) ([]Connection, error) {
 	suffix := trainTypes[trainType]
-	url := fmt.Sprintf("https://koleo.pl/rozklad-pkp/%s/%s/%s/all/%s", start, end, date, suffix)
+	url := fmt.Sprintf("https://koleo.pl/rozklad-pkp/%s/%s/%s/direct/%s", start, end, date, suffix)
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 
