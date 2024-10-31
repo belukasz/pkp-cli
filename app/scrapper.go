@@ -34,9 +34,10 @@ func (ds *DayScrape) RealDate() time.Time {
 }
 
 type ScrapeData struct {
-	From string
-	To   string
-	Date string
+	From      string
+	To        string
+	Date      string
+	TrainType string
 }
 
 type Connection struct {

@@ -26,7 +26,7 @@ func ScrapeConnections(days int, starthour string, trainType string, startStatio
 			defer producerGroup.Done()
 			t := now.AddDate(0, 0, i)
 			date := fmt.Sprintf("%d-%d-%d_%s", t.Day(), t.Month(), t.Year(), starthour)
-			inputs <- ScrapeData{From: startStation, To: arrivalStation, Date: date}
+			inputs <- ScrapeData{From: startStation, To: arrivalStation, Date: date, TrainType: trainType}
 		}()
 	}
 	go workerMonitor(outputs, inputs, wg, producerGroup)
@@ -50,7 +50,7 @@ func workerMonitor(results chan<- DayScrape, inputs chan<- ScrapeData, wg *sync.
 func worker(jobs <-chan ScrapeData, results chan<- DayScrape, wg *sync.WaitGroup) {
 	defer wg.Done()
 	for scrapeData := range jobs {
-		con, _ := ScrapeOneDay(scrapeData.From, scrapeData.To, scrapeData.Date, "EIP")
+		con, _ := ScrapeOneDay(scrapeData.From, scrapeData.To, scrapeData.Date, scrapeData.TrainType)
 		results <- DayScrape{Connections: con, Date: scrapeData.Date}
 	}
 }
